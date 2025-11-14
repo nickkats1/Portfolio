@@ -2,10 +2,9 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import yfinance as yf
-from src.config import load_config
+from tools.config import load_config
 import numpy as np
 from pypfopt import expected_returns,EfficientFrontier,risk_models
-from pypfopt.discrete_allocation import DiscreteAllocation,get_latest_prices
 from src.financial_models.VaR import Var
 
 class EfficientDiversification:

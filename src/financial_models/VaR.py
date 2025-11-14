@@ -2,10 +2,10 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
-from src.config import load_config
+from tools.config import load_config
 import yfinance as yf
 import numpy as np
-
+from tools.logger import logger
 
 
 class Var:
@@ -14,14 +14,16 @@ class Var:
 
 
         
-    def load_data(self):
-        """
-        Loads in data from yfinance
-        """
-        self.data = yf.download(tickers=self.config["combined_assets"],start=self.config['start_date'],end=self.config['end_date'])['Close']
-        self.data = self.data.dropna()
-        self.data.drop_duplicates(inplace=True)
-        return self.data
+    def load_returns(self):
+        """ read in returns from path """
+        try:
+            returns  = pd.read_csv(self.config['returns_path'],delimiter=",")
+            return returns
+        except FileNotFoundError as fnfe:
+            logger.exception(f"File Not Found Error: {fnfe}")
+        except ExceptionGroup as e:
+            logger.exception(f"Other Exception which was not called: {e}")
+        raise None
 
     
     def get_var(self,ci=0.95):
@@ -29,38 +31,23 @@ class Var:
         value at risk
         """
         #returns
-        self.returns = self.data.pct_change().dropna()
+        returns = self.load_returns()
 
-        self.value_at_risk = np.percentile(self.returns,(1 - ci)*100)
-        return self.value_at_risk
+        value_at_risk = np.percentile(returns,(1 - ci)*100)
+        return value_at_risk
     
-    def get_cvar(self,ci=0.95):
+    def get_cvar(self):
         """
         Conditional Value at Risk
         """
 
+        returns = self.load_returns()
 
+        value_at_risk = self.get_var()
+        tail_risk = returns[returns < value_at_risk]
+        cvar = np.mean(tail_risk)
+        return cvar
 
-        tail_risk = self.returns[self.returns < self.value_at_risk]
-        self.cvar = np.mean(tail_risk)
-        return self.cvar
-    
-    def plot_returns(self):
-        """ plot VaR, CVar and returns """
-
-        print(f' Returns: {self.returns}')
-        print(f'Value at Risk: {self.value_at_risk}')
-        print(f'Conditional Value at Risk: {self.cvar:.4}%')
-        plt.figure(figsize=(10, 6))
-        plt.hist(self.returns, bins=100, label="Returns Distribution", alpha=0.7)
-        plt.axvline(self.value_at_risk, color='r', linestyle='dashed', linewidth=2, label=f'VaR (5%): {self.value_at_risk:.4f}')
-        plt.axvline(x=self.cvar, color='green', linestyle='--', label=f'CVaR ({self.cvar:.4f})')
-        plt.title('Distribution of Returns and Value at Risk')
-        plt.xlabel('Returns')
-        plt.ylabel('Frequency')
-        plt.legend()
-        plt.grid(True)
-        plt.show()
 
 
 

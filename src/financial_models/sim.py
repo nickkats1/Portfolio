@@ -2,13 +2,14 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
 import statsmodels.api as sm
-from src.config import load_config
+from tools.config import load_config
 import numpy as np
 from pypfopt import expected_returns
 import os
 import yfinance as yf
 
 class Sim:
+    RISK_FREE_RATE = 0.0005
     def __init__(self,config):
         self.config = config
 
@@ -31,7 +32,7 @@ class Sim:
 
         sp500_ticker = self.config['sp500_ticker']
         tickers = self.config['combined_assets']
-        risk_free_rate = self.config['risk_free_rate']
+
 
         # sp500 data
         sp500_data = all_prices[sp500_ticker]
@@ -65,7 +66,7 @@ class Sim:
         for ticker in tickers:
             asset_data = all_prices[ticker]
             returns = asset_data.pct_change().dropna()
-            Excess_Returns = asset_data.pct_change().dropna() - risk_free_rate
+            Excess_Returns = asset_data.pct_change().dropna() - self.RISK_FREE_RATE
             print(f'Returns for: {ticker}, {returns}')
             print(f'Excess Returns: {Excess_Returns}')
             print(f'Market Returns: {sp500_ticker},{market_returns};-----')
@@ -133,7 +134,7 @@ class Sim:
 
             # E(r) -> The Expected Return using pyportfolio & Risk Premiun = E(r) - rf 
             Expected_Return = expected_returns.mean_historical_return(asset_data)
-            risk_premium = Expected_Return - risk_free_rate
+            risk_premium = Expected_Return - self.RISK_FREE_RATE
 
             Expected_Returns[ticker] = Expected_Return
             risk_premiums[ticker] = risk_premium
@@ -144,18 +145,10 @@ class Sim:
 
             print(f'ANOVA Table: {model.summary()}')
             print(f'R2 Score: {model.rsquared*100:.2f}')
-            print(f'Expected Return: {Expected_Return}')
-
-
-            
-
-
-
-            ## plots
+            print(f"Risk-Premium: {risk_premium}")
             plt.figure(figsize=(12,6))
             sns.scatterplot(x=market_returns, y=returns, label=ticker)
             sns.lineplot(x=market_returns, y=model.fittedvalues, color='red', label='Security Market Line')
-                
             plt.title(f'Single Index Model for {ticker}')
             plt.xlabel('Market Excess Return')
             plt.ylabel(f'{ticker} Excess Return')
@@ -163,7 +156,6 @@ class Sim:
             os.makedirs(output_dir, exist_ok=True)
             plt.savefig(os.path.join(output_dir, f"single_index_model_{ticker}.png"))
             plt.show()
-
 
 
 

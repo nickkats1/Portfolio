@@ -1,7 +1,7 @@
 import pytest
 from unittest.mock import patch
 import pandas as pd
-from src.data_acquisition.download_data import LoadData
+from src.data_acquisition.LoadData import LoadData
 
 SAMPLE_CONFIG = {
     "start_date": "2020-10-10",

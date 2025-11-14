@@ -1,6 +1,6 @@
 # Date range for data download
 start_date: '2020-10-15'
-end_date: '2025-10-15'
+end_date: '2025-11-13'
 
 # ticker classes
 
@@ -108,10 +108,13 @@ crypto_data_path: data/raw/crypto.csv
 sp500_data_path: data/raw/sp500.csv
 # returns path
 returns_path: data/processed/returns.csv
-
+market_returns: data/processed/sp500_returns.csv
+stock_returns: data/processed/stock_returns.csv
+etf_returns: data/processed/etf_returns.csv
+crypto_returns: data/processed/crypto_returns.csv
 
 # portfolio metrics path
 expected_returns_path: data/processed/expected_returns.csv
 volatility_path: data/processed/vol.csv
-
+weights_path: data/processed/weights/csv
 
