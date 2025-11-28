@@ -1,15 +1,11 @@
-import io
-import os
-from pathlib import Path
-
 from setuptools import find_packages, setup
 
-__version__ = "0.0.0"
+__version__ = "0.0.2"
 
-src = 'financial_models'
+src = 'src/'
 DESCRIPTION = 'Portfolio Optimization, CAPM, VaR, and Clustering'
-URL = 'https://github.com/nickkats1/Quant-I-Guess'
-EMAIL = 'katsarelasnick3@gmail.com' #or katsarelas26@gmail.com
+URL = 'https://github.com/nickkats1/Portfolio'
+EMAIL = 'katsarelas1@outlook.com' #or katsarelasnick3@gmail.com
 AUTHOR = 'Nick'
 REQUIRES_PYTHON = '>=3.6.0'
 

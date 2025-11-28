@@ -1,8 +1,8 @@
 #ignore .env
 *.env
-#ingore ides
+#ignore ides
 
-.spyproject/
+
 *.pyc
 __pycache__/
 *.pyo
@@ -17,13 +17,13 @@ __pycache__/
 *.vscode
 .vscode/
 .idea/
-.venv
 env/
 venv/
 env.bak/
 venv.bak/
 backups/
 defaults/
+*venv
 
 # Jupyter Notebook ect
 .virtual_documents/
@@ -52,6 +52,7 @@ dist/
 *.c
 *.so
 *.spec
+*.cpp
 
 #windows
 Thumbs.db

@@ -1,59 +1,13 @@
-# Date range for data download
-start_date: '2020-10-15'
-end_date: '2025-11-13'
+#start and end date
+start_date: 2020-11-24
+end_date: 2025-11-24
 
-# ticker classes
 
-stock_tickers:
+#all tickers path
+all_prices:
  - AAPL
  - MSFT
- - TGT
- - GM
- - F
- - WMT
- - MCD
- - SBUX
- - TSLA
- - GOOGL
-
-
-
-etf_tickers:
-- SPY
-- QQQ
-- VTI
-- VOO
-- ARKK
-- IWM
-- DIA
-- XLF
-- XLK
-- EFA
-
-
-
-
-
-
-
-crypto_tickers:
- - BTC-USD
- - ETH-USD
- - XRP-USD
- - USDT-USD
- - BNB-USD
- - SOL-USD
- - USDC-USD
- - STETH-USD
- - TRX-USD
- - LINK-USD
-
-
-#assets combined
-combined_assets:
- - AAPL
- - MSFT
- - TGT
+ - NVDA
  - GM
  - F
  - WMT
@@ -71,50 +25,56 @@ combined_assets:
  - XLF
  - XLK
  - EFA
- - BTC-USD
- - ETH-USD
- - XRP-USD
- - USDT-USD
- - BNB-USD
- - SOL-USD
- - USDC-USD
- - STETH-USD
- - TRX-USD
- - LINK-USD
  - ^GSPC
 
+#stock tickers
+stock_tickers:
+ - AAPL
+ - MSFT
+ - NVDA
+ - GM
+ - F
+ - WMT
+ - MCD
+ - SBUX
+ - TSLA
+ - GOOGL
+
+
+#etf tickers
+etf_tickers:
+- SPY
+- QQQ
+- VTI
+- VOO
+- ARKK
+- IWM
+- DIA
+- XLF
+- XLK
+- EFA
 
 
 
 
-
-#risk-free rate (very safe assets like treasury bonds)
-risk_free_rate: 0.0092
-
-
-
-#ticker for sp500
+#sp500 ticker
 sp500_ticker: ^GSPC
 
 
+#risk-free rate
+risk_free_rate: 0.005
 
 
 
-# paths to market data
-all_data_path: data/raw/all_prices.csv
-stock_data_path: data/raw/stocks.csv
-etf_data_path: data/raw/etfs.csv
-crypto_data_path: data/raw/crypto.csv
-sp500_data_path: data/raw/sp500.csv
-# returns path
-returns_path: data/processed/returns.csv
-market_returns: data/processed/sp500_returns.csv
+#data paths
+all_prices_path: data/raw/all_prices.csv
+stock_prices_path: data/raw/stocks.csv
+etf_prices_path: data/raw/etfs.csv
+sp500_prices_path: data/raw/sp500_prices.csv
+
+
+#returns
+all_returns: data/processed/returns.csv
 stock_returns: data/processed/stock_returns.csv
 etf_returns: data/processed/etf_returns.csv
-crypto_returns: data/processed/crypto_returns.csv
-
-# portfolio metrics path
-expected_returns_path: data/processed/expected_returns.csv
-volatility_path: data/processed/vol.csv
-weights_path: data/processed/weights/csv
-
+sp500_returns: data/processed/sp500_returns.csv
