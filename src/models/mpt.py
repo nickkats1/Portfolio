@@ -1,47 +1,59 @@
 import pandas as pd
+from tools.config import load_config
+import numpy as np
 from pypfopt import expected_returns,EfficientFrontier,risk_models
-
+from scripts.data_ingestion import DataIngestion
+from typing import Any
 
 class MPT:
     """
-    A class for portfolio optimization using Modern
-    Portfolio Theory.
+    Class for MPT (Modern Portfolio Theory).
     """
-    def __init__(self,config):
+
+    
+    def __init__(self,config: dict, data_ingestion: DataIngestion | None = None):
         """
-        Initialize Markowitz object.
+        Initializing class for modern Portfolio Theory.
         
         Args:
-            config (yaml): a configuration file containing paths to CSV
-            files with needed data.
+            config (dict): configuration file.
+            data_ingestion (DataIngestion): DataIngestion module to extract data from yfinance API.
+        
         """
-        self.config = config
+        self.config = load_config()
+        self.data_ingestion = DataIngestion(self.config)
+
+    
+    
+    def portfolio_metrics(self) -> Any:
+        """
+        Metrics for portfolio optimization using pyportfolioopt.
+
+        Returns:
+            Performance (Dict[List,Any]): a dictionary containing a list of items with weights, Expected Returns, Volatility,
+            Efficient Frontier, and the sharpe ratio
+        """
+        # data from data ingestion
+        all_prices = self.data_ingestion.fetch_all_prices()
         
 
-    def run(self):
-        """Run Markowitz portfolio optimization."""
-        data = pd.read_csv(self.config['all_prices_path'],delimiter=",")
-        
-        # Expected Returns, Volatility, Sharpe Ratio
-        mu = expected_returns.mean_historical_return(data)
-        S = risk_models.sample_cov(data)
+        mu = expected_returns.mean_historical_return(all_prices)
+        S = risk_models.sample_cov(all_prices)
         ef = EfficientFrontier(mu,S)
-        
-        # save mu,S, Efficient Frontier to .csv
-        
-
-
+            
 
         weights = ef.max_sharpe()
         weights = ef.clean_weights()
-    
+
 
             
-        expected_annual_return, annual_volatility, sharpe_ratio = ef.portfolio_performance(verbose=False)
+        expected_annual_return, annual_volatility, sharpe_ratio = ef.portfolio_performance(verbose=True)
         performance = {
-            "Expected Annual Return":expected_annual_return,
+            "Expected Returns":mu,
+            "Volatility": S,
+            "weights": weights,
+            "expected_annual_return":expected_annual_return,
             "Annual Volatility":annual_volatility,
             "Sharpe Ratio":sharpe_ratio
         }
-        
-        return mu,S,weights,performance
+        return performance
