@@ -1,6 +1,6 @@
 import yfinance as yf
 import pandas as pd
-
+from tools.config import load_config
 
 class DataIngestion:
     """
@@ -15,7 +15,7 @@ class DataIngestion:
         Args:
             config (dict): configuration file containing dates, tickers, and file paths
         """
-        self.config = config
+        self.config = load_config()
         
     def fetch_all_prices(self) -> pd.DataFrame:
         """
@@ -71,4 +71,3 @@ class DataIngestion:
         sp500 = sp500.dropna()
         sp500.drop_duplicates(inplace=True)
         return sp500
-

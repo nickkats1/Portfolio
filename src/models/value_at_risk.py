@@ -15,18 +15,8 @@ class ValueAtRisk:
         self.returns =returns or Returns(self.config)
         
         
-    def get_returns(self) -> pd.DataFrame:
-        """
-        Fetches data from yfinance api.
-        
-        Returns:
-            returns (pd.DataFrame): dataframe of all_returns from config.yaml from yfinance.
-        """
-        data = yf.download(self.config['all_prices'],start=self.config['start_date'],end=self.config['end_date'])['Close']
-        returns = data.pct_change().dropna()
-        return returns
-    
-    def run_var(self,ci=0.99):
+
+    def run_var(self,ci=0.99) -> float:
         """
         the value at risk for all of the specified returns in configuration file.
         
@@ -36,12 +26,13 @@ class ValueAtRisk:
         Returns:
             var (float): Value at risk for the returns of the selected tickers.
         """
-        returns = self.get_returns()
+        all_returns = self.returns.get_all_returns()
 
-        value_at_risk = np.percentile(returns,(1 - ci)*100)
+        value_at_risk = np.percentile(all_returns,(1 - ci)*100)
+        print(f"Value at Risk (VaR): {value_at_risk:.4f}")
         return value_at_risk
     
-    def run_cvar(self):
+    def run_cvar(self) -> float:
         """
         the conditional value at risk for all returns specified in config.yaml file.
         
@@ -49,11 +40,13 @@ class ValueAtRisk:
             cvar (float): the conditional value at risk
         """
 
-        returns = self.get_returns()
+        all_returns = self.returns.get_all_returns()
 
-        value_at_risk = self.run_var()
-        tail_risk = returns[returns < value_at_risk]
+        value_at_risk = np.percentile(all_returns,(1-.99)*100)
+        tail_risk = all_returns[all_returns < value_at_risk]
         cvar = np.mean(tail_risk)
+        print(f"Conditional Value at Risk: {cvar:.4f}")
         return cvar
+
 
 

@@ -1,4 +1,3 @@
-from scripts.data_ingestion import DataIngestion
 import pandas as pd
 from tools.config import load_config
 
@@ -8,17 +7,15 @@ class Returns:
     defined in the project's configuration file.
     """
 
-    def __init__(self, data_ingestion: DataIngestion | None = None):
+    def __init__(self,config: dict):
         """
         Initialize the Returns object.
 
         Args:
-            data_ingestion (DataIngestion, optional):
-                An instance of DataIngestion. If not provided, a new
-                DataIngestion instance is created using the global config.
+            config (dict): Configuration file containing file paths and tickers.
         """
         self.config = load_config()
-        self.data_ingestion = data_ingestion or DataIngestion(self.config)
+
 
     def get_all_returns(self) -> pd.DataFrame:
         """
@@ -28,7 +25,7 @@ class Returns:
         Returns:
             pd.DataFrame: DataFrame containing percent changes of all assets.
         """
-        all_prices = pd.read_csv(self.config["all_prices_path"])
+        all_prices = pd.read_csv(self.config["all_prices_path"],delimiter=",")
         returns = all_prices.pct_change().dropna()
         return returns
 
@@ -40,7 +37,7 @@ class Returns:
         Returns:
             pd.DataFrame: DataFrame containing percent changes of stock prices.
         """
-        stocks = pd.read_csv(self.config["stock_prices_path"])
+        stocks = pd.read_csv(self.config['stock_prices_path'],delimiter=",")
         stock_returns = stocks.pct_change().dropna()
         return stock_returns
 
@@ -52,7 +49,7 @@ class Returns:
         Returns:
             pd.DataFrame: DataFrame containing percent changes of ETF prices.
         """
-        etf = pd.read_csv(self.config["etf_prices_path"])
+        etf = pd.read_csv(self.config['etf_prices_path'],delimiter=",")
         etf_returns = etf.pct_change().dropna()
         return etf_returns
 
@@ -64,6 +61,6 @@ class Returns:
         Returns:
             pd.DataFrame: DataFrame containing percent changes of S&P 500 prices.
         """
-        sp500 = pd.read_csv(self.config["sp500_prices_path"])
+        sp500 = pd.read_csv(self.config["sp500_prices_path"],delimiter=",")
         sp500_returns = sp500.pct_change().dropna()
         return sp500_returns

@@ -1,4 +1,3 @@
-from typing import Any
 from tools.config import load_config
 from scripts.returns import Returns
 from typing import List
@@ -6,7 +5,7 @@ import numpy as np
 
 class MaxUtility:
     """
-    a class for maximizing utility.
+    Class for maximizing utility.
     Max (u) = rf + y*[E(rp) - rf] - (1/2) * A * y**2 * var(portfolio)
     """
     def __init__(self,config,returns: Returns | None = None):
@@ -16,10 +15,10 @@ class MaxUtility:
         
     def run(self) -> List[float]:
         """
-        the utility of the investor with optimized utility.
+        The utility of the investor with optimized utility.
         
         Returns:
-            U (List(float)): list of investors utility level for each asset class.
+            U (List[float]): list of investors utility level for each asset class.
         """
         stock_returns = self.returns.get_all_returns()
         

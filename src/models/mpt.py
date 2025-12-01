@@ -13,7 +13,7 @@ class MPT:
     
     def __init__(self,config: dict, data_ingestion: DataIngestion | None = None):
         """
-        Initializing class for modern Portfolio Theory.
+        Initializing class for Modern Portfolio Theory.
         
         Args:
             config (dict): configuration file.
@@ -49,8 +49,6 @@ class MPT:
             
         expected_annual_return, annual_volatility, sharpe_ratio = ef.portfolio_performance(verbose=True)
         performance = {
-            "Expected Returns":mu,
-            "Volatility": S,
             "weights": weights,
             "expected_annual_return":expected_annual_return,
             "Annual Volatility":annual_volatility,
