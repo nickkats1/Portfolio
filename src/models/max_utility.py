@@ -1,24 +1,23 @@
 from tools.config import load_config
 from scripts.returns import Returns
-from typing import List
 import numpy as np
-
+import pandas as pd
 class MaxUtility:
     """
     Class for maximizing utility.
     Max (u) = rf + y*[E(rp) - rf] - (1/2) * A * y**2 * var(portfolio)
     """
     def __init__(self,config,returns: Returns | None = None):
-        self.config = load_config()
+        self.config = config or load_config()
         self.returns = returns or Returns(self.config)
         
         
-    def run(self) -> List[float]:
+    def run(self) -> pd.Series:
         """
         The utility of the investor with optimized utility.
         
         Returns:
-            U (List[float]): list of investors utility level for each asset class.
+            max_u (pd.Series): max utility: rf + y*[E(rp) - rf] - (1/2) * A * y**2 * var(stock_returns)
         """
         stock_returns = self.returns.get_all_returns()
         
@@ -38,11 +37,11 @@ class MaxUtility:
         
         # maximize U
         
-        max_u = risk_free_rate + y_star * (er - risk_free_rate) - (0.5) * A * y_star**2 * var
-        print(f"Max Utils: {max_u}")
+        max_U = risk_free_rate + y_star * (er - risk_free_rate) - (0.5) * A * y_star**2 * var
+        print(f"Max Utils: {max_U}")
         
         
-        return max_u
+        return max_U
         
         
 

@@ -1,8 +1,7 @@
 import numpy as np
 from scripts.returns import Returns
 from tools.config import load_config
-from typing import List
-
+import pandas as pd
 
 class Utility:
     """
@@ -19,15 +18,15 @@ class Utility:
         Returns:
             U (float): utility of the investor.
         """
-        self.config = load_config()
+        self.config = config or load_config()
         self.returns = returns or Returns(config)
         
-    def run(self) -> List[float]:
+    def run(self) -> pd.Series:
         """
-        run utility module.
+        Run utility module.
         
         Returns:
-            u (List[float]): the utility of the investor based on A, expected returns, and risk(var).
+            u (pd.Series): the utility of the investor based on A, expected returns, and risk(var).
         """
         # closing prices
         returns = self.returns.get_stock_returns()

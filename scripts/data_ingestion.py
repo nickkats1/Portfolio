@@ -15,7 +15,7 @@ class DataIngestion:
         Args:
             config (dict): configuration file containing dates, tickers, and file paths
         """
-        self.config = load_config()
+        self.config = config or load_config()
         
     def fetch_all_prices(self) -> pd.DataFrame:
         """

@@ -3,7 +3,7 @@ from tools.config import load_config
 import numpy as np
 from pypfopt import expected_returns,EfficientFrontier,risk_models
 from scripts.data_ingestion import DataIngestion
-from typing import Any
+from typing import Any,Dict
 
 class MPT:
     """
@@ -20,17 +20,17 @@ class MPT:
             data_ingestion (DataIngestion): DataIngestion module to extract data from yfinance API.
         
         """
-        self.config = load_config()
-        self.data_ingestion = DataIngestion(self.config)
+        self.config = config or load_config()
+        self.data_ingestion = data_ingestion or DataIngestion(self.config)
 
     
     
-    def portfolio_metrics(self) -> Any:
+    def portfolio_metrics(self) -> Dict[str,Any]:
         """
         Metrics for portfolio optimization using pyportfolioopt.
 
         Returns:
-            Performance (Dict[List,Any]): a dictionary containing a list of items with weights, Expected Returns, Volatility,
+            Performance (Dict[str,Any]): a dictionary containing a list of items with weights, Expected Returns, Volatility,
             Efficient Frontier, and the sharpe ratio
         """
         # data from data ingestion

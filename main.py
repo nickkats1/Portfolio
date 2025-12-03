@@ -9,8 +9,14 @@ from src.models.utility import Utility
 from src.models.value_at_risk import ValueAtRisk
 
 
-if __name__ == "__main__":
-    
+
+
+
+
+
+def main():
+    """Main function """
+      
     # config
     config = load_config()
     
@@ -94,5 +100,12 @@ if __name__ == "__main__":
     sim_obj = SingleIndexModel(config)
     
     
-    # run single index model
-    sim_obj.single_index_model()
+    # run single index model to get dictionary of financial metrics
+    sim = sim_obj.run()
+    print(sim)
+
+    
+    
+    
+if __name__ == "__main__":
+    main()

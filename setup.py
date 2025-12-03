@@ -1,6 +1,6 @@
 from setuptools import find_packages, setup
 
-__version__ = "0.0.2"
+__version__ = "0.0.3"
 
 src = 'src/'
 DESCRIPTION = 'Portfolio Optimization, CAPM, VaR, and Clustering'

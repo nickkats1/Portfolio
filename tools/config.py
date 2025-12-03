@@ -1,7 +1,5 @@
 import yaml
-import logging
-
-logger = logging.getLogger(__name__)
+from tools.logger import logger
 
 def load_config(config_path="config.yaml"):
     """Loads a YAML configuration file."""

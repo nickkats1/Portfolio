@@ -14,7 +14,7 @@ class Returns:
         Args:
             config (dict): Configuration file containing file paths and tickers.
         """
-        self.config = load_config()
+        self.config = config or load_config()
 
 
     def get_all_returns(self) -> pd.DataFrame:
