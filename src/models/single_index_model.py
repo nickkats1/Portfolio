@@ -1,9 +1,12 @@
-from scripts.returns import Returns
-from tools.config import load_config
 import numpy as np
+
+from tools.config import load_config
+
 import statsmodels.api as sm
+
 from scripts.returns import Returns
-from typing import Any,Dict,List
+
+from typing import Dict,List
 
 
 
@@ -23,12 +26,12 @@ class SingleIndexModel:
         self.config = config or load_config()
         self.returns = returns or Returns(self.config)
         
-    def run(self) -> List[Dict[str, Dict[str, np.float64]]]:
+    def run(self) -> List[Dict[str, Dict[str, float]]]:
         """
         OLS of returns between individual assets and the SP&500.
         
         Returns:
-            results (List[Dict[str, Dict[str, np.float64]]]): a list the appends the alphas, betas, systematic risks ect. for all firms against the SP&500.
+            results (List[Dict[str, Dict[str, float]]]): a list the appends the alphas, betas, systematic risks ect. for all firms against the SP&500.
         """
         # all_returns and market_returns
         

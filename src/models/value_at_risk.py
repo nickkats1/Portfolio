@@ -1,18 +1,18 @@
-import pandas as pd
 import numpy as np
+
 from tools.config import load_config
+
 from scripts.returns import Returns
-from tools.logger import logger
-import yfinance as yf
+
 
 class ValueAtRisk:
     """
     A class for computing the Value at Risk(VaR) && Conditional Value at Risk(CVar).
     for multiple asset returns.
     """
-    def __init__(self,config,returns: Returns | None = None):
-        self.config = load_config()
-        self.returns =returns or Returns(self.config)
+    def __init__(self, config: dict, returns: Returns | None = None):
+        self.config = config or load_config()
+        self.returns = returns or Returns(self.config)
         
         
 
@@ -45,7 +45,6 @@ class ValueAtRisk:
         value_at_risk = np.percentile(all_returns,(1-.99)*100)
         tail_risk = all_returns[all_returns < value_at_risk]
         cvar = np.mean(tail_risk)
-        print(f"Conditional Value at Risk: {cvar:.4f}")
         return cvar
 
 

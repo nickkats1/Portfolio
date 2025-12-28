@@ -6,7 +6,7 @@ from src.models.max_utility import MaxUtility
 from src.models.mpt import MPT
 from src.models.single_index_model import SingleIndexModel
 from src.models.utility import Utility
-from src.models.value_at_risk import ValueAtRisk
+
 
 
 
@@ -57,17 +57,7 @@ def main():
     sp500_returns = returns.get_sp500_returns()
     
     
-    # var instance
-    
-    var_obj = ValueAtRisk(config)
-    
-    # run var
-    
-    var_obj.run_var()
-    
-    # run cvar
-    
-    var_obj.run_cvar()
+
     
     
     # Utility
@@ -102,7 +92,7 @@ def main():
     
     # run single index model to get dictionary of financial metrics
     sim = sim_obj.run()
-    print(sim)
+    sim
 
     
     

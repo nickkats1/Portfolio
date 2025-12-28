@@ -1,8 +1,9 @@
-import pandas as pd
 from tools.config import load_config
-import numpy as np
+
 from pypfopt import expected_returns,EfficientFrontier,risk_models
+
 from scripts.data_ingestion import DataIngestion
+
 from typing import Any,Dict
 
 class MPT:

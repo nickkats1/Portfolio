@@ -1,54 +1,66 @@
+# numpy
 import numpy as np
+
+# pyportfolio
+from pypfopt import expected_returns
+
+# returns from 'scripts' file
 from scripts.returns import Returns
+
+# config from tools
 from tools.config import load_config
+
+# pandas and numpy
 import pandas as pd
 
+
 class Utility:
+    """A class to Maximize Utility of the Expected returns:
+    U = E(r) - A * 1/2 * var(r).
     """
-    A class to Maximize Utility of the Expected returns:
-    u = E(r) - A * 1/2 * var(r)
-    """
-    def __init__(self,config: dict, returns: Returns | None = None):
-        """
-        Initialize Utility object.
+    
+    
+    def __init__(self, config: dict, returns: Returns | None=None):
+        """__init__ Utility class.
+
         Args:
-            config (dict): config.py file.
-            data_ingestion(DataIngestion): class used to fetch data from yfinance API.
+            config (dict): config.py from config.yaml consisting of tickers and file paths.
+            returns (Returns | None, optional): Returns module to fetch market returns from yfinance.
         
         Returns:
-            U (float): utility of the investor.
+            U (pd.Series): Utility of the individuals risk-averison.
         """
+        
         self.config = config or load_config()
-        self.returns = returns or Returns(config)
+        self.returns = returns or Returns(self.config)
         
-    def run(self) -> pd.Series:
-        """
-        Run utility module.
+        
+    def run(self, A=3.0) -> pd.Series:
+        """Run Utility class.
+        
+        Args:
+            A (float): The level of the investors risk-aversion set to three.
+        
         
         Returns:
-            u (pd.Series): the utility of the investor based on A, expected returns, and risk(var).
+            U (pd.Series): A series of Utility values based on expected returns, risk, risk-aversion and scaling factor.
         """
-        # closing prices
-        returns = self.returns.get_stock_returns()
         
-        # expected returns from pyportfolio library.
+        # returns from 'Returns' object
+        returns = self.returns.get_all_returns()
+        
+        # Expected Returns
         
         er = np.mean(returns)
         
-        # variance
+        # Variance (Volatility) or returns.
+        
         var = np.var(returns)
         
-        # A is the investors level of risk aversion. if A > 0: Risk-Adverse, A == 0; Risk-Neutral, A < 0; Risk-Loving
+        # Utility function
         
+        U = er - (0.5) * A * var
         
+        print(f"Utility derived from returns and risk: {U}")
         
-        # set A == 3.0 for risk-adverse investors because most investors are risk-adverse
-        A = 3.0
-        
-        
-        # utility function
-        u = er - (0.5) * A * var
-        
-
-        print(f"investors level of risk aversion: {u}")
-        return u
+        return U
