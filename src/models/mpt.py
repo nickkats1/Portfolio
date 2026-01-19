@@ -1,15 +1,16 @@
 from tools.config import load_config
 
-from pypfopt import expected_returns,EfficientFrontier,risk_models
+
+from pypfopt import expected_returns, EfficientFrontier, risk_models
+
 
 from scripts.data_ingestion import DataIngestion
 
-from typing import Any,Dict
+
+from typing import Any, Dict
 
 class MPT:
-    """
-    Class for MPT (Modern Portfolio Theory).
-    """
+    """Modern Portfolio Theory class."""
 
     
     def __init__(self,config: dict, data_ingestion: DataIngestion | None = None):

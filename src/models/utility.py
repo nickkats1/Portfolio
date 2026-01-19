@@ -1,16 +1,12 @@
-# numpy
 import numpy as np
 
-# pyportfolio
-from pypfopt import expected_returns
 
-# returns from 'scripts' file
 from scripts.returns import Returns
 
-# config from tools
+
 from tools.config import load_config
 
-# pandas and numpy
+
 import pandas as pd
 
 
@@ -28,7 +24,7 @@ class Utility:
             returns (Returns | None, optional): Returns module to fetch market returns from yfinance.
         
         Returns:
-            U (pd.Series): Utility of the individuals risk-averison.
+            U (pd.Series): Utility of the individuals risk-aversion.
         """
         
         self.config = config or load_config()
@@ -39,7 +35,7 @@ class Utility:
         """Run Utility class.
         
         Args:
-            A (float): The level of the investors risk-aversion set to three.
+            A (float): The level of the investors risk-aversion.
         
         
         Returns:
